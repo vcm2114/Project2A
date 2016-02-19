@@ -1,4 +1,4 @@
-# Basic import in pandas
+# Basic imports in pandas
 import pandas as pd
 import numpy as np
 

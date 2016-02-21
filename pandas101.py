@@ -1,3 +1,7 @@
+#
+# Fonctions principales nécessaires au traitement de tables de concept formelle.
+#
+
 # Basic imports in pandas
 import pandas as pd
 import numpy as np
@@ -52,3 +56,21 @@ df4 = create_tab(10,10)
 
 print(df4)
 print('\n -------------- \n')
+
+### -- II - Modification de la table -- ###
+
+df=pd.DataFrame(
+    {
+    "SW I":generate(6),
+    "Kill Bill":generate(6),
+    "SAW VI":generate(6),
+    "Jaws":generate(6),
+    "Rambo":generate(6)
+    },
+    index=['Bob','Ashley','John','Paul','Gabby','Jordan'])
+print(df)
+
+## 1. Sorting methods ##
+
+df.sort("SW I")
+print(df)

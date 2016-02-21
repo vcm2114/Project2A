@@ -1,4 +1,4 @@
-#
+#p
 # Fonctions principales nécessaires au traitement de tables de concept formelle.
 #
 

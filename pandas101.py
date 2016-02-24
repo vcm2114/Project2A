@@ -50,7 +50,7 @@ def rand2(m,n):
     return np.random.randint(2, size=(m,n))
 
 def create_tab(m,n):
-    return pd.DataFrame(rand2(m,n),index=(np.arange(m)+1),columns=pd.read_excel('data.xls',sheetname=1).values[0:n][0])
+    return pd.DataFrame(rand2(m,n),index=(np.arange(m)+1),columns=(np.arange(n)+1))
 
 df4 = create_tab(10,10)
 

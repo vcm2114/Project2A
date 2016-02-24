@@ -1,7 +1,7 @@
 #p
 # Fonctions principales nécessaires au traitement de tables de concept formelle.
 #
-
+#commit
 # Basic imports in pandas
 import pandas as pd
 import numpy as np

@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 from xlrd101 import import_xls
 
-# -- I - Création de la table -- #
+# -- I. Création de la table -- #
 
 # 1. A la main #
 df1 = pd.DataFrame(
@@ -71,7 +71,7 @@ print(dfk)
 print('\n -------------- \n')
 print('\n -------------- \n')
 
-# -- II - Modification de la table -- #
+# -- II. Formal Concept with table -- #
 
 df=pd.DataFrame(
     {

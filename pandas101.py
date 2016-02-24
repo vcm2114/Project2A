@@ -50,11 +50,14 @@ def rand2(m,n):
     return np.random.randint(2, size=(m,n))
 
 def create_tab(m,n):
-    return pd.DataFrame(rand2(m,n),index=(np.arange(m)+1),columns=(np.arange(n)+1))
+    return pd.DataFrame(rand2(m,n),index=(np.arange(m)+1),columns=pd.read_excel('data.xls',sheetname=1).values[0:n][0])
 
 df4 = create_tab(10,10)
 
 print(df4)
+print('\n -------------- \n')
+print('\n -------------- \n')
+print('\n -------------- \n')
 print('\n -------------- \n')
 
 ### -- II - Modification de la table -- ###
@@ -70,7 +73,4 @@ df=pd.DataFrame(
     index=['Bob','Ashley','John','Paul','Gabby','Jordan'])
 print(df)
 
-## 1. Sorting methods ##
-
-df.sort("SW I")
-print(df)
+## 1. Create categories from Excel ##

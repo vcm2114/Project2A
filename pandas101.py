@@ -73,4 +73,46 @@ df=pd.DataFrame(
     index=['Bob','Ashley','John','Paul','Gabby','Jordan'])
 print(df)
 
-# 1. Create categories from Excel #
+# Trouver les concepts formels
+
+# Calcule le concept formel d'un ensemble d'attributs
+# i.e. l'ensemble des individus qui ont tous vu tous les films passés en argument
+
+def concept_formel_attribut(dataframe, attributs):
+    
+    ind=list(dataframe.index.values)
+    n=len(ind)
+    obj=[1 for e in range(n)]
+    
+    i=0;
+    for e in ind:
+        for f in attributs:
+            obj[i]=obj[i]*df.loc[e,f]
+        i=i+1
+    
+    return [ind[i] for i in range(n) if obj[i]==1]
+
+print('\n')
+res=concept_formel_attribut(df,["Jaws","Kill Bill","Rambo"])
+print(res)
+
+# Calcule le concept formel d'un ensemble d'objets
+# i.e. l'ensemble des films qui ont tous été vus par les individus passés en argument
+
+def concept_formel_objet(dataframe, objets):
+    
+    col=list(dataframe.columns.values)
+    n=len(col)
+    att=[1 for e in range(n)]
+    
+    i=0;
+    for f in col:
+        for e in objets:
+            att[i]=att[i]*df.loc[e,f]
+        i=i+1
+    
+    return [col[i] for i in range(n) if att[i]==1]
+
+print('\n')
+res2=concept_formel_objet(df,["Bob","Ashley","Jordan"])
+print(res2)

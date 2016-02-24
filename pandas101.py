@@ -6,9 +6,9 @@
 import pandas as pd
 import numpy as np
 
-### -- I - Création de la table -- ###
+# -- I - Création de la table -- #
 
-## 1. A la main ##
+# 1. A la main #
 df1 = pd.DataFrame(
     {
     "SW I":[1,0,1,0,1,0],
@@ -22,12 +22,12 @@ df1 = pd.DataFrame(
 print(df1)
 print('\n -------------- \n')
 
-## 2. Avec excel ##
+# 2. Avec excel #
 df2 = pd.read_excel('data.xls',sheetname='data')
 print(df2)
 print('\n -------------- \n')
 
-## 3. Génération semi-aléatoire d'un tableau ##
+# 3. Génération semi-aléatoire d'un tableau #
 def generate(n):
     return np.random.randint(2, size=n)
 
@@ -44,7 +44,7 @@ df3 = pd.DataFrame(
 print(df3)
 print('\n -------------- \n')
 
-## 4. Génération aléatoire d'un tableau de taille m x n ##
+# 4. Génération aléatoire d'un tableau de taille m x n #
 
 def rand2(m,n):
     return np.random.randint(2, size=(m,n))
@@ -60,7 +60,7 @@ print('\n -------------- \n')
 print('\n -------------- \n')
 print('\n -------------- \n')
 
-### -- II - Modification de la table -- ###
+# -- II - Modification de la table -- #
 
 df=pd.DataFrame(
     {
@@ -73,4 +73,4 @@ df=pd.DataFrame(
     index=['Bob','Ashley','John','Paul','Gabby','Jordan'])
 print(df)
 
-## 1. Create categories from Excel ##
+# 1. Create categories from Excel #

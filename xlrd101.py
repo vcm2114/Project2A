@@ -10,7 +10,7 @@ print(list1)
 # To run a script in python command line:
 # >>> exec(open("excel.py").read(), globals())
 
-def import_xls(path,m,n):
+def import_xls(path,n,m):
    xl=open_workbook(path)
    movies=[]
    names=[]
@@ -20,7 +20,7 @@ def import_xls(path,m,n):
    for col in range(xl.sheets()[2].ncols):
       for rows in range( min(xl.sheets()[2].nrows,n) ):
          names.append(str(xl.sheets()[2].cell(rows, col).value))
-   return [movies,names]
+   return [names,movies]
 
 [e,r] = import_xls('data.xls',5,3)
 print(e)

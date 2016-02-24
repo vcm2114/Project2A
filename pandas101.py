@@ -5,6 +5,7 @@
 # Basic imports in pandas
 import pandas as pd
 import numpy as np
+from xlrd101 import import_xls
 
 # -- I - Création de la table -- #
 
@@ -49,14 +50,24 @@ print('\n -------------- \n')
 def rand2(m,n):
     return np.random.randint(2, size=(m,n))
 
-def create_tab(m,n):
+def create_t(m,n):
     return pd.DataFrame(rand2(m,n),index=(np.arange(m)+1),columns=(np.arange(n)+1))
 
-df4 = create_tab(10,10)
+df4 = create_t(10,10)
 
 print(df4)
 print('\n -------------- \n')
 print('\n -------------- \n')
+
+# 5. Génération aléatoire d'un tableau de taille m x n avec names et movies prédéfinis #
+
+def create_tab(n,m):
+    [names,movies] = import_xls('data.xls',n,m)
+    return pd.DataFrame(rand2(n,m),index=names,columns=movies)
+
+dfk=create_tab(3,5)
+print(dfk)
+
 print('\n -------------- \n')
 print('\n -------------- \n')
 
@@ -79,17 +90,17 @@ print(df)
 # i.e. l'ensemble des individus qui ont tous vu tous les films passés en argument
 
 def concept_formel_attribut(dataframe, attributs):
-    
+
     ind=list(dataframe.index.values)
     n=len(ind)
     obj=[1 for e in range(n)]
-    
+
     i=0;
     for e in ind:
         for f in attributs:
             obj[i]=obj[i]*df.loc[e,f]
         i=i+1
-    
+
     return [ind[i] for i in range(n) if obj[i]==1]
 
 print('\n')
@@ -100,19 +111,19 @@ print(res)
 # i.e. l'ensemble des films qui ont tous été vus par les individus passés en argument
 
 def concept_formel_objet(dataframe, objets):
-    
+
     col=list(dataframe.columns.values)
     n=len(col)
     att=[1 for e in range(n)]
-    
+
     i=0;
     for f in col:
         for e in objets:
             att[i]=att[i]*df.loc[e,f]
         i=i+1
-    
+
     return [col[i] for i in range(n) if att[i]==1]
 
 print('\n')
-res2=concept_formel_objet(df,["Bob","Ashley","Jordan"])
+res2=concept_formel_objet(df,["Bob","Ashley"])
 print(res2)

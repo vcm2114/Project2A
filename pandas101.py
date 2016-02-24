@@ -90,11 +90,11 @@ print(df)
 # i.e. l'ensemble des individus qui ont tous vu tous les films passés en argument
 
 def common_entities(dataframe, attributs):
-    
+
     ind=list(dataframe.index.values)
     n=len(ind)
     obj=[1 for e in range(n)]
-    
+
     i=0;
     for e in ind:
         for f in attributs:
@@ -111,7 +111,7 @@ print(res)
 # i.e. l'ensemble des films qui ont tous été vus par les individus passés en argument
 
 def common_features(dataframe, objets):
-    
+
     col=list(dataframe.columns.values)
     n=len(col)
     att=[1 for e in range(n)]

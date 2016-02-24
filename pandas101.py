@@ -78,7 +78,7 @@ print(df)
 # Calcule le concept formel d'un ensemble d'attributs
 # i.e. l'ensemble des individus qui ont tous vu tous les films passés en argument
 
-def concept_formel_attribut(dataframe, attributs):
+def common_entities(dataframe, attributs):
     
     ind=list(dataframe.index.values)
     n=len(ind)
@@ -93,13 +93,13 @@ def concept_formel_attribut(dataframe, attributs):
     return [ind[i] for i in range(n) if obj[i]==1]
 
 print('\n')
-res=concept_formel_attribut(df,["Jaws","Kill Bill","Rambo"])
+res=common_entities(df,["Jaws","Kill Bill","Rambo"])
 print(res)
 
 # Calcule le concept formel d'un ensemble d'objets
 # i.e. l'ensemble des films qui ont tous été vus par les individus passés en argument
 
-def concept_formel_objet(dataframe, objets):
+def common_features(dataframe, objets):
     
     col=list(dataframe.columns.values)
     n=len(col)
@@ -114,5 +114,22 @@ def concept_formel_objet(dataframe, objets):
     return [col[i] for i in range(n) if att[i]==1]
 
 print('\n')
-res2=concept_formel_objet(df,["Bob","Ashley","Jordan"])
+res2=common_features(df,["Bob","Ashley","Jordan"])
 print(res2)
+
+
+# indique si le couple (objets,attributs) forme un concept formel (résultat booléen)
+
+def is_formal_concept(dataframe,objets,attributs):
+    return (attributs==common_features(dataframe,objets))and(objets==common_entities(dataframe,attributs))
+
+print(is_formal_concept(df,["Bob","Ashley"],(common_features(df,["Bob","Ashley"]))))
+
+
+# à partir d'un tableau, renvoie l'ensemble des sous-tableau contenant une case de moins
+
+def subtable(t):
+    n=len(t)
+    return [t[0:i]+t[i+1:] for i in range(n-1)]+[t[0:n-1]]
+
+print(subtable([1,2,3,4,5,6]))

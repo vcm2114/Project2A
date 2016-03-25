@@ -47,8 +47,16 @@ class trie:
                 # find right index for children
                 while j<nc and self.children[j].edge<obj[0]:
                     j+=1
+                # if end of the list
+                if j == nc:
+                    self.children.append(trie(obj[0],self.obj+[obj[0]],[],[]))
+                    if len(obj)>1:
+                        self.children[j].insert_trie(i,obj[1:])
+                    # if last obj
+                    else:
+                        self.children[j].add_attr(i)
                 # if child already exists
-                if obj[0]==self.children[j].edge:
+                elif obj[0]==self.children[j].edge:
                     #if not last obj
                     if len(obj)>1:
                         self.children[j].insert_trie(i,obj[1:])
@@ -78,7 +86,7 @@ class trie:
 
 
 
-
+'''
 t=trie()
 
 print(t)
@@ -94,4 +102,4 @@ print(t.children[2].children[0])
 print(t.children[2].children[1])
 print(t.children[2].children[2])
 l=t.equivalence()
-print(l)
+print(l)'''

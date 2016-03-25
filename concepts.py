@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from xlrd101 import import_xls
+import trie as tr
 
 # Définition d'une classe concept formel
 
@@ -43,9 +44,22 @@ def create_tab(n,m):
 
 
 # variables globales
-df = create_tab(5,5)
+'''df = create_tab(4,4)
 print(df)
-A = df.as_matrix()
+A = df.as_matrix()'''
+
+df1 = pd.DataFrame(
+    {
+    "SW I":[1,1,1,0],
+    "Rambo":[0,0,0,1],
+    "Jaws":[0,1,0,0],
+    "Kill Bill":[1,1,1,1]
+    },
+    index=['Paris', 'Pierre', 'Julien', 'Olivier'])
+
+print(df1)
+M = df1.as_matrix()
+
 
 
 
@@ -130,11 +144,11 @@ def in_close(mat,r,y,lc,n):
 
 # test
 
-'''l=[FormalConcept(range(5),[])]
-in_close(A,0,0,l,5)
+l=[FormalConcept(range(4),[])]
+in_close(M,0,0,l,4)
 for e in l:
     print(e)
-print(r_new)'''
+print(r_new)
 
 
 
@@ -205,7 +219,7 @@ def attrr(M, obj, att):
     
     return res
 
-print(objr(A, 2, [1,2,4]))
+# print(objr(A, 2, [1,2,4]))
 
 
 # prend en argument la liste de tous les attributs et un échantillon d'attributs
@@ -227,3 +241,27 @@ def without(L, X):
             j += 1
     
     return res
+
+
+# prend en argument l
+
+def child(M, X):
+    
+    res = []
+    
+    objX = common_objects(M, X)
+    L = without(range(len(M[0])), X)
+    t = tr.trie(-1,[],[],[])
+    
+    for i in L:
+        obji = objr(M, i, objX)
+        t.insert_trie(i, obji)
+        print(t)
+    S = t.equivalence()
+    
+    for s in S:
+        res.append((s[0], sorted(X+s[1])))
+    
+    return res
+
+print(child(M, [3]))

@@ -1,7 +1,28 @@
+#---------------#
+# Bibliothèques #
+#---------------#
+
+# Structures de données
 import pandas as pd
+
+# Manipulation de matrices
 import numpy as np
+
+# Import de fichier Excel
 from xlrd101 import import_xls
+
+# Structure d'arbre de tri
 import trie as tr
+
+# Structure de file FIFO
+import queue as qu
+
+
+
+#---------#
+# Classes #
+#---------#
+
 
 # Définition d'une classe concept formel
 
@@ -28,6 +49,25 @@ class FormalConcept:
         return "Objets : {} | Attributs : {}".format(self.objects, self.attributes)
 
 
+class Lattice:
+    """Un treilli est défini par :
+    - un noeud-concept
+    - un ensemble de successeurs"""
+    
+    """méthode d'initialisation"""
+    def __init__(self, c, enfants):
+        self.node = c
+        self.children = enfants
+    
+    """méthode permettant d'ajouter un enfant"""
+    def add_child(self, enfant):
+        self.children.append(enfant)
+    
+    """méthode facilitant l'affichage console d'un concept"""
+    def __str__(self):
+        return "Noeud : {} \nEnfants : {} \n".format(self.node, self.children)
+
+
 
 #------------------------------------#
 # Simulation d'un contexte aléatoire #
@@ -43,7 +83,11 @@ def create_tab(n,m):
     
 
 
-# variables globales
+#--------------------#
+# variables globales #
+#--------------------#
+
+
 '''df = create_tab(4,4)
 print(df)
 A = df.as_matrix()'''
@@ -152,11 +196,13 @@ print(r_new)
 
 
 
+
 #--------------------------------------------------------------------------#
 # Trouver les concepts formels et le treillis de concepts - Algorithme DFS #
 #--------------------------------------------------------------------------#
 
-# à partir  d'un ensemble d'attributs, renvoie tous les objets communs
+
+# à partir d'un ensemble d'attributs, renvoie tous les objets communs
 
 def common_objects(M, attributs):
     
@@ -243,7 +289,8 @@ def without(L, X):
     return res
 
 
-# prend en argument l
+# prend en argument les attributs d'un concepts et renvoie les concepts descendants
+# potentiels
 
 def child(M, X):
     
@@ -256,12 +303,70 @@ def child(M, X):
     for i in L:
         obji = objr(M, i, objX)
         t.insert_trie(i, obji)
-        print(t)
+        
     S = t.equivalence()
     
     for s in S:
-        res.append((s[0], sorted(X+s[1])))
+        res.append((s[0], sorted(X+s[1]))) # sorted ?
     
     return res
 
-print(child(M, [3]))
+
+# fonction is_closed ===> améliorable <===
+# prend en argument un couple renvoyé par la fonction child
+# renvoie un booléen indiquant s'il s'agit d'un concept
+
+def is_closed(M, S):
+    return len(S[1]) == len(common_attributes(M,S[0]))
+
+
+# fonction qui prend en argument un couple (obj, attr) et une liste L de treillis
+# et indique si le concept formé par le couple est un noeud des lattices de la liste
+
+def ever_existing_lattice(couple, L):
+    
+    res = None
+    n = len(L)
+    i = 0
+    
+    while i < n:
+        if len(L[i].node.objects) == len(couple[0]):
+            if L[i].node.attributes == couple[1]:
+                if L[i].node.objects == couple[0]:
+                    res = L[i]
+                    break
+        i += 1
+    
+    return res
+
+
+# fonction qui construit le treilli de Galois d'une matrice donnée
+# utilise l'algorithme BFS de Vicky C. Choi (Université de Virginie)
+
+def compute_lattice(M):
+    
+    nobj = len(M)
+    natt = len(M[0])
+    o = list(range(nobj))
+    C = FormalConcept(o, common_attributes(M,o))
+    L = Lattice(C,[])
+    Q = qu.Queue()
+    Q.put(L)
+    existing = [L]
+    
+    while not(Q.empty()):
+        lat = Q.get()
+        chi = child(M, lat.node.attributes)
+        for e in chi:
+            if is_closed(M,e):
+                K = ever_existing_lattice(e, existing)
+                if K == None:
+                    K = Lattice(FormalConcept(e[0],e[1]),[])
+                    existing.append(K)
+                    Q.put(K)
+                lat.add_child(K)
+    
+    return L
+
+t = compute_lattice(M)
+print(t)

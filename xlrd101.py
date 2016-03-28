@@ -13,5 +13,5 @@ def import_xls(path,n,m):
       names.append(str(xl.sheets()[2].cell(rows, 0).value))
    return [names,movies]
 
-[e,r] = import_xls('data.xls',5,3)
-print(e)
+# [e,r] = import_xls('data.xls',5,3)
+# print(e)

@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
 
-#---------------#
-# Bibliothèques #
-#---------------#
+#-----------#
+# Libraries #
+#-----------#
 
-# Structures de données
+# data structures
 import pandas as pd
 
-# Manipulation de matrices
+# matrixes and data analysis
 import numpy as np
 
-# Import de fichier Excel
+# import Excel file
 from xlrd101 import import_xls
 
-# Structure d'arbre de tri
+# sorting trees
 import trie as tr
 
-# Structure de file FIFO
+# queue FIFO
 import queue as qu
 
 
@@ -25,54 +25,54 @@ import queue as qu
 #---------#
 
 
-# Définition d'une classe concept formel
+# definition of the formal concept class
 
 class FormalConcept:
-    """un concept formel est défini par
-    - un ensemble d'objets
-    - un ensemble d'attributs"""
+    """a formal concept is defined by
+    - an object set
+    - an attribute set"""
 
-    """méthode d'initialisation"""
+    """initialisation"""
     def __init__(self,obj,att):
         self.objects=obj
         self.attributes=att
 
-    """méthode permettant d'ajouter un objet à un concept"""
+    """add an object to the object set"""
     def add_entity(self,entity):
         self.objects.append(entity)
 
-    """méthode permettant d'ajouter un attribut à un concept"""
+    """add an attribute to the attribute set"""
     def add_feature(self,feature):
         self.attributes.append(feature)
 
-    """méthode facilitant l'affichage console d'un concept"""
+    """print the concept as a string when call the 'print' function"""
     def __str__(self):
         return "Objets : {} | Attributs : {}".format(self.objects, self.attributes)
 
 
 class Lattice:
-    """Un treilli est défini par :
-    - un noeud-concept
-    - un ensemble de successeurs"""
+    """a lattice is defined by
+    - a node (concept)
+    - a set of children"""
 
-    """méthode d'initialisation"""
+    """initialisation"""
     def __init__(self, c, enfants):
         self.node = c
         self.children = enfants
 
-    """méthode permettant d'ajouter un enfant"""
+    """add a child to the children set"""
     def add_child(self, enfant):
         self.children.append(enfant)
 
-    """méthode facilitant l'affichage console d'un concept"""
+    """print the lattice as a string when call the 'print' function"""
     def __str__(self):
         return "Noeud : {} \nEnfants : {} \n".format(self.node, self.children)
 
 
 
-#------------------------------------#
-# Simulation d'un contexte aléatoire #
-#------------------------------------#
+#--------------------------------#
+# Simulation of a random context #
+#--------------------------------#
 
 
 def rand2(n,m):
@@ -84,26 +84,27 @@ def create_tab(n,m):
 
 
 
-#--------------------#
-# variables globales #
-#--------------------#
+#------------------#
+# global variables #
+#------------------#
 
 
-'''df = create_tab(4,4)
+df = create_tab(10,5)
 print(df)
-A = df.as_matrix()'''
+A = df.as_matrix()
+r_new=0
 
-# df1 = pd.DataFrame(
-#     {
-#     "SW I":[1,1,1,0],
-#     "Rambo":[0,0,0,1],
-#     "Jaws":[0,1,0,0],
-#     "Kill Bill":[1,1,1,1]
-#     },
-#     index=['Paris', 'Pierre', 'Julien', 'Olivier'])
-#
-# print(df1)
-# M = df1.as_matrix()
+'''df1 = pd.DataFrame(
+    {
+    "SW I":[1,1,1,0],
+    "Rambo":[0,0,0,1],
+    "Jaws":[0,1,0,0],
+    "Kill Bill":[1,1,1,1]
+    },
+    index=['Paris', 'Pierre', 'Julien', 'Olivier'])
+
+print(df1)
+M = df1.as_matrix()'''
 
 def obj2name(df,obj):
     res=[]
@@ -118,25 +119,26 @@ def attr2name(df,attr):
     return res
 
 
-#---------------------------------------------------#
-# Trouver les concepts formels - Algorithme InClose #
-#---------------------------------------------------#
+#-------------------------------------------------#
+# Find the formal concept set - InClose algorithm #
+#-------------------------------------------------#
 
 
 
-# variables globale
-
-r_new=0
-
-
-
-# fonction is_cannonical
-# prend en argument la matrice des données, des variables r et y,la liste lc des
-# concepts formels
-# renvoie un booléen indiquant si le concept formel lc[r_new] est canonique ou non
-# algorithme développé par S. Andrews (université de Sheffield)
+# is_cannonical function
+# point if lc[r_new] is canonical
+# algorithm from S. Andrews (Sheffield University)
 
 def is_cannonical(mat,r,y,lc):
+    
+    """
+    Input: - mat: context matrix
+           - r: integer, number of concepts already computed
+           - y: integer, parameter
+           - lc: list of concepts
+    Output: - res: boolean
+    """
+    
     global r_new
     res=True
     A=lc[r_new].objects
@@ -173,15 +175,24 @@ def is_cannonical(mat,r,y,lc):
 
 
 
-# fonction in_close
-# prend en argument la matrice de données, des variables r et y initialisées à 0,
-# la liste des concepts initialisée à une case contenant l'infimum, le nombre n
-# d'attributs
-# renvoie la liste de tous les concepts formels, sauf le supremum
-# algorithme développé par S. Andrews (université de Sheffield)
+# in_close function
+# recursive function
+# compute the list of concepts in lexicographical order
+# algorithm from S. Andrews (Sheffield University)
 
 def in_close(mat,r,y,lc,n):
+    
+    """
+        Input: - mat: context matrix
+               - r: integer, number of concepts already computed, initialised at 0
+               - y: integer, parameter initialised at 0
+               - lc: list of concepts initialised at []
+               - n: integer, number of attributes in the context
+        Output: - None (lc is mutated)
+    """    
+    
     global r_new
+    
     AB=lc[r]
     r_new+=1
     lc.append(FormalConcept([],[]))
@@ -197,25 +208,32 @@ def in_close(mat,r,y,lc,n):
                 lc[r_new].attributes=AB.attributes+[j]
                 in_close(mat,r_new,j+1,lc,n)
 
+
 # test
 
-# l=[FormalConcept(range(4),[])]
-# in_close(M,0,0,l,4)
-# for e in l:
-#     print(e)
-# print(r_new)
+'''l=[FormalConcept(range(4),[])]
+in_close(M,0,0,l,4)
+for e in l:
+    print(e)
+print(r_new)'''
 
 
 
 
-#--------------------------------------------------------------------------#
-# Trouver les concepts formels et le treillis de concepts - Algorithme DFS #
-#--------------------------------------------------------------------------#
+#--------------------------------------------------------------------#
+# Find the set formal concepts and built the lattice - DFS algorithm #
+#--------------------------------------------------------------------#
 
 
-# à partir d'un ensemble d'attributs, renvoie tous les objets communs
+# compute the set of objects that are in relation with the given set of attributes
 
 def common_objects(M, attributs):
+    
+    '''
+    Input: - M: context matrix
+           - attributs: a set of attributes
+    Output: set of common objects
+    '''
 
     nattributes = len(attributs)
     nobjects = len(M)
@@ -231,9 +249,15 @@ def common_objects(M, attributs):
     return [e for e in obj if (res[e]==1)]
 
 
-# à partir d'un ensemble d'objets, renvoie la liste des attributs communs
+# compute the set of attributes that are in relation with the given set of objects
 
 def common_attributes(M, objets):
+    
+    '''
+    Input: - M: context matrix
+           - objets: a set of objects
+    Output: set of common attributes
+    '''
 
     nobjects = len(objets)
     nattributes = len(M[0])
@@ -249,10 +273,16 @@ def common_attributes(M, objets):
     return [e for e in att if (res[e]==1)]
 
 
-# prend en argument un attribut et une liste d'objets, et renvoie tous les objets
-# de cette liste en relation avec l'attribut
+# compute the set of objects beyond a given subset in relation with a single given attribute
 
 def objr(M, att, obj):
+    
+    """
+    Input: - M: context matrix
+           - att: given attribute
+           - obj: subset of objects
+    Output: res, subset of obj
+    """
 
     res = []
 
@@ -263,10 +293,16 @@ def objr(M, att, obj):
     return res
 
 
-# prend en argument un objet et une liste d'attributs, et renvoie tous les attributs
-# de cette liste en relation avec l'objet
+# compute the set of attributes beyond a given subset in relation with a single given object
 
 def attrr(M, obj, att):
+    
+    """
+    Input: - M: context matrix
+            - obj: given aobject
+            - att: subset of attributes
+    Output: res, subset of att
+    """    
 
     res = []
 
@@ -276,13 +312,16 @@ def attrr(M, obj, att):
 
     return res
 
-# print(objr(A, 2, [1,2,4]))
 
-
-# prend en argument la liste de tous les attributs et un échantillon d'attributs
-# X, et renvoie L\X
+# compute L\X
 
 def without(L, X):
+    
+    """
+    Input: - L: list
+           - X: list
+    Output: res = L\X
+    """
 
     res = []
     Xbis = X+[-1]
@@ -300,10 +339,15 @@ def without(L, X):
     return res
 
 
-# prend en argument les attributs d'un concepts et renvoie les concepts descendants
-# potentiels
+# compute the list of potential children of the concept whose set of attributes is X
 
 def child(M, X):
+    
+    """
+    Input: - M: context matrix
+           - X: list of attributes
+    Output: - res: list of potential children (obj, att)
+    """
 
     res = []
 
@@ -323,18 +367,30 @@ def child(M, X):
     return res
 
 
-# fonction is_closed ===> améliorable <===
-# prend en argument un couple renvoyé par la fonction child
-# renvoie un booléen indiquant s'il s'agit d'un concept
+# is_closed function ===> can be improved <===
+# point if the given couple S is a formal concept
 
 def is_closed(M, S):
+    
+    """
+    Input: - M: context matrix
+           - S: couple (obj, att)
+    Output: boolean
+    """
+    
     return len(S[1]) == len(common_attributes(M,S[0]))
 
 
-# fonction qui prend en argument un couple (obj, attr) et une liste L de treillis
-# et indique si le concept formé par le couple est un noeud des lattices de la liste
+# if the given couple represents a concept that already exists, return the concept,
+# otherwise return None
 
 def ever_existing_lattice(couple, L):
+    
+    """
+    Input: - couple: couple (obj, att)
+           - L: lattice
+    Output: res, None or already-existing concept
+    """
 
     res = None
     n = len(L)
@@ -351,10 +407,15 @@ def ever_existing_lattice(couple, L):
     return res
 
 
-# fonction qui construit le treilli de Galois d'une matrice donnée
-# utilise l'algorithme BFS de Vicky C. Choi (Université de Virginie)
+# Compute the lattice associated to a given context
+# BFS algorithm from Vicky C. Choi (Virginia Tech University)
 
 def compute_lattice(M):
+    
+    """
+    Input: - M: context matrix
+    Output: - L: lattice
+    """
 
     nobj = len(M)
     natt = len(M[0])
@@ -379,5 +440,7 @@ def compute_lattice(M):
 
     return L
 
-# t = compute_lattice(M)
-# print(t)
+# test
+
+"""t = compute_lattice(A)
+print(t)"""

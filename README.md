@@ -1,4 +1,6 @@
 # Project 2A
+
+[![Join the chat at https://gitter.im/VirgileACM/Project2A](https://badges.gitter.im/VirgileACM/Project2A.svg)](https://gitter.im/VirgileACM/Project2A?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Data Science project (French engineering school Mines Nancy) on recommendation systems. Using python and classic py-libraries.
 
 ## pandas101.py

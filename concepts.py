@@ -53,20 +53,26 @@ class FormalConcept:
 class Lattice:
     """a lattice is defined by
     - a node (concept)
-    - a set of children"""
+    - a set of children
+    - a set of parents"""
 
     """initialisation"""
-    def __init__(self, c, enfants):
+    def __init__(self, c, enfants, pa):
         self.node = c
         self.children = enfants
+        self.parents = pa
 
     """add a child to the children set"""
     def add_child(self, enfant):
         self.children.append(enfant)
+    
+    """add a parent to the parents set"""
+    def add_parent(self, parent):
+        self.parents.append(parent)
 
     """print the lattice as a string when call the 'print' function"""
     def __str__(self):
-        return "Noeud : {} \nEnfants : {} \n".format(self.node, self.children)
+        return "Noeud : {} \nEnfants : {} \nParents : {}".format(self.node, self.children, self.parents)
 
 
 
@@ -421,7 +427,7 @@ def compute_lattice(M):
     natt = len(M[0])
     o = list(range(nobj))
     C = FormalConcept(o, common_attributes(M,o))
-    L = Lattice(C,[])
+    L = Lattice(C,[],[])
     Q = qu.Queue()
     Q.put(L)
     existing = [L]
@@ -433,14 +439,15 @@ def compute_lattice(M):
             if is_closed(M,e):
                 K = ever_existing_lattice(e, existing)
                 if K == None:
-                    K = Lattice(FormalConcept(e[0],e[1]),[])
+                    K = Lattice(FormalConcept(e[0],e[1]),[],[])
                     existing.append(K)
                     Q.put(K)
+                K.add_parent(lat)
                 lat.add_child(K)
 
     return L
 
 # test
 
-"""t = compute_lattice(A)
-print(t)"""
+t = compute_lattice(A)
+print(t)

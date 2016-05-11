@@ -62,9 +62,18 @@ def frequence(c,th):
     """
     return len(c.objects)>=th
 
+def confiance(M,attr1,attr2):
+    """
+    Input : - M: context matrix
+            - attr1: attributes 1
+            - attr2: attributes 2
+    Output : conf(r) ith r: attr1->attr2
+    """
+    return supp(M,attr1,attr2)/support(M,attr1)
+
 
 # test
-
+'''
 df1 = create_tab(10,10)
 print(df1)
 M = df1.as_matrix()
@@ -73,3 +82,4 @@ in_close(M,0,0,l,10)
 print(l[3])
 print(l[4])
 print(supp(M,l[3].attributes,l[4].attributes))
+'''

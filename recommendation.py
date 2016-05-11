@@ -4,7 +4,7 @@
 # Libraries #
 #-----------#
 
-from concepts import *
+import concepts as cp
 
 def support(M,attr):
     """
@@ -83,3 +83,58 @@ print(l[3])
 print(l[4])
 print(supp(M,l[3].attributes,l[4].attributes))
 '''
+
+def inobjects(k, obj):
+    
+    """
+    Input : - k: object
+            - obj: object list
+    Output : boolean: True if k in obj, False otherwise
+    """
+    
+    i = 0
+    n = len(obj)
+    res = False
+    
+    while i < n and obj[i] <= k:
+        if obj[i] == k:
+            res = True
+            break
+        i += 1
+    
+    return res
+
+print(inobjects(4, [0, 1, 2, 3, 5, 6, 7, 8, 9]))
+
+
+# compute the set of last nodes where k appears in the concept lattice
+
+def find_last_occurences(L, k):
+    
+    """
+    Input : - L: concept lattice
+            - k: object
+    Output : set of the last nodes where k appears
+    """
+    
+    s = set()
+    
+    for lat in L.children:
+        if inobjects(k, lat.node.objects):
+            s = s.union({lat})
+    
+    if len(s) == 0:
+        return {L}
+    else:
+        res = set()
+        for lat in s:
+            res = res.union(find_last_occurences(lat, k))
+        return res
+
+df = cp.create_tab(20,15)
+print(df)
+A = df.as_matrix()
+t = cp.compute_lattice(A)
+print(t)
+s = find_last_occurences(t, 3)
+print(s)

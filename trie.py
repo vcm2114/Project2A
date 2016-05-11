@@ -88,7 +88,6 @@ class trie:
 
 '''
 t=trie()
-
 print(t)
 t.insert_trie('1',['3','7'])
 t.insert_trie('4',['3','7'])

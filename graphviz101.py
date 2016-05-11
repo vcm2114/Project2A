@@ -1,25 +1,7 @@
 # -*- coding: utf-8 -*-
 
-# Thanks to http://matthiaseisen.com/articles/graphviz/
-
 import graphviz
 from concepts import *
-
-def add_nodes(graph, nodes):
-    for n in nodes:
-        if isinstance(n, tuple):
-            graph.node(n[0], **n[1])
-        else:
-            graph.node(n)
-    return graph
-
-def add_edges(graph, edges):
-    for e in edges:
-        if isinstance(e[0], tuple):
-            graph.edge(*e[0], **e[1])
-        else:
-            graph.edge(*e)
-    return graph
 
 def add_tail(graph, node, name):
     graph.edge(node,node, taillabel=name,labelangle='90',color='transparent')
@@ -30,7 +12,7 @@ def add_head(graph, node, name):
 def dirgraph(name,nodes,edges,heads,tails):
     dot = graphviz.Digraph(
             name=name,
-            graph_attr=dict(rankdir='BT',center='True',margin='0.7',dpi='70',nodesep='0.8',size='10,10'),
+            graph_attr=dict(rankdir='BT',center='True',margin='0.7',dpi='70',nodesep='1.8',size='10,10'),
             node_attr=dict(shape='circle', width='.25', style='filled', label=''),
             edge_attr=dict(dir='none', labeldistance='1.8', minlen='2',color='#111111',style='setlinewidth(0.5)',fontname='Calibri'),
             format='pdf')
@@ -170,11 +152,11 @@ def root2viz(df,l,lviz,parent):
 
 print("---------------------------------")
 
-df1 = create_tab(10,4)
+df1 = create_tab(5,4)
 print(df1)
 M = df1.as_matrix()
 t = compute_lattice(M)
-
+print("fin lattice \n")
 lviz=latticeviz([],[],[],[],['people','movies'],name="ConceptLattice")
 root2viz(df1,t,lviz,0)
 lviz.printf()

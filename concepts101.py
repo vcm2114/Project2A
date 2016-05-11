@@ -8,11 +8,11 @@ class FormalConcept:
     """un concept formel est défini par 
     - un ensemble d'objets
     - un ensemble d'attributs"""
-    
+
     def __init__(self,obj,att):
         self.entities=obj
         self.features=att
-    
+
     def __str__(self):
         return "Objets : {} | Attributs : {}".format(self.entities, self.features)
 
@@ -23,15 +23,15 @@ class ConceptLattice:
     - un noeud-concept
     - un ensemble de treillis ancêtres
     - un ensemble de treillis descendants"""
-    
+
     def __init__(self,concept):
         self.node=concept
         self.parents=[]
         self.children=[]
-    
+
     def add_child(self,child):
         self.children.append(child)
-    
+
     def add_parent(self,parent):
         self.parents.append(parent)
 
@@ -138,23 +138,23 @@ def combinaisons(t):
 # ordonnées par ordre décroissant du nombre d'éléments
 
 def sorted_combinaisons(t):
-    
+
     res=[]
     combi=[]
     n=len(t)
     dic_combi=[[] for i in range(n+1)]
     ncombi=2**n
-    
+
     for i in range(ncombi):
         binary=int_to_binary(i)
         dic_combi[n-binary[1]].append(binary[0])
-    
+
     for e in dic_combi:
         combi=combi+e
-        
+
     for c in combi:
-        res.append([t[i] for i in range(len(c)) if c[i]==1])    
-    
+        res.append([t[i] for i in range(len(c)) if c[i]==1])
+
     return res
 
 #test
@@ -163,16 +163,16 @@ def sorted_combinaisons(t):
 # caculer l'ensemble des concepts formels
 
 def formal_concepts(dataframe):
-    
+
     res=[]
     totalObjets=list(dataframe.index.values)
     aTraiter=sorted_combinaisons(totalObjets)
-    
+
     for e in aTraiter:
         att=common_features(dataframe,e)
         if is_formal_concept(dataframe,e,att):
             res.append(FormalConcept(e,att))
-            
+
     return res
 
 # test
@@ -185,20 +185,20 @@ def formal_concepts(dataframe):
 # peut être amélioré (?) en ne considérant que le sous tableau de t1 restant après chaque itération --> voir complexité
 
 def is_included(t1,t2):
-    
+
     res=True
     n1=len(t1)
     n2=len(t2)
-    
+
     if n2 < n1:
         i=0
         while res and i<n2:
             res=res and  (t2[i] in t1)
             i+=1
-    
+
     else:
         res=False
-    
+
     return res
 
 # test
@@ -211,16 +211,16 @@ def is_included(t1,t2):
 # on insère le concept dans les enfants correspondants
 
 def insere_concept_e(noeudconcept,treilli):
-    
+
     ch=treilli.children
     arc=True
     ent=noeudconcept.node.entities
-    
+
     for c in ch:
         if is_included(c.node.entities,ent):
             arc=False
             insere_concept_e(noeudconcept,c)
-    
+
     if arc:
         treilli.add_child(noeudconcept)
         noeudconcept.add_parent(treilli)
@@ -229,13 +229,13 @@ def insere_concept_e(noeudconcept,treilli):
 # les objets
 
 def concept_lattice_e(dataframe):
-    
+
     FC=formal_concepts(dataframe)
     FC2=FC[1:]
     res=ConceptLattice(FC[0])
     for concept in FC2:
         insere_concept_e(ConceptLattice(concept),res)
-           
+
     return res
 
 #test
@@ -249,12 +249,12 @@ def concept_lattice_e(dataframe):
 #    print("Concept enfant")
 #    print(e.node)
 #    print("\n")
-    
+
 #    for f in e.children:
 #        print("Concept petit-enfant")
 #        print(f.node)
 #        print("\n")
-    
+
 #        for p in f.parents:
 #            print("Concept parent")
 #            print(p.node)

@@ -449,5 +449,5 @@ def compute_lattice(M):
 
 # test
 
-t = compute_lattice(A)
-print(t)
+'''t = compute_lattice(A)
+print(t)'''

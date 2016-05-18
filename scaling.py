@@ -28,7 +28,6 @@ def scaling(df):
     for e in names:
         names2.append('-' + e)
     df1.columns = names2
-    print(names)
     
     names = df2.columns.tolist()
     names2 = []

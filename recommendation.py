@@ -275,15 +275,15 @@ def recommendation(M, L, k, freq_threshold, conf_threshold):
 
 # test
 
-df = cp.create_tab(30,25)
+'''df = cp.create_tab(30,25)
 print(df)
 A = df.as_matrix()
 t = cp.compute_lattice(A)
 print(t)
-'''print(30*'-')
+print(30*'-')
 print("Noeuds trouvés :")
 s = find_occurences(t, 3, 3)
-print(s)'''
+print(s)
 
 r = recommendation(A, t, 3, 3, 0.8)
-print(r)
+print(r)'''

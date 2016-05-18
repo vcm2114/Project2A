@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from concepts import *
 from recommendation import *
+from scaling import *
+from pandas101 import *
 
 def main(df):
     # Find all lattices
@@ -23,16 +26,8 @@ def main(df):
     # Recommendation
 
 
+df = scaling(data(8,5))
+print(df)
 
-df1 = pd.DataFrame(
-    {
-    "SW I":[1,0,1,0,1,0],
-    "Kill Bill":[0,1,1,0,1,1],
-    "SAW VI":[1,0,1,0,0,1],
-    "Jaws":[1,0,1,0,0,1],
-    "Rambo":[1,0,1,0,1,1]
-    },
-    index=['Bob','Ashley','John','Paul','Gabby','Jordan'])
 
-name = main(df1)
-print(name)
+

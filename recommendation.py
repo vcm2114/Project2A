@@ -10,6 +10,9 @@ import concepts as cp
 # queue
 import queue as qu
 
+# pandas
+import pandas as pd
+
 
 # compute the support of an attribute list
 
@@ -273,9 +276,62 @@ def recommendation(M, L, k, freq_threshold, conf_threshold):
     return purify(res)
     
 
+def recommendation_str(df, dic, n, viewer):
+    
+    res = ""
+    
+    love = []
+    middle = []
+    hate = []
+    
+    s1 = n/3
+    s2 = 2*n/3
+    
+    films = df.columns.tolist()
+    
+    for e in list(dic.keys()):
+        
+        if dic[e] > s2:
+            love.append((films[e], dic[e]))
+        elif dic[e] > s1:
+            mddile.append((films[e], dic[e]))
+        else:
+            hate.append((films[e], dic[e]))
+    
+    res += viewer + " risque d'aimer"
+    for e in love:
+        res += " "
+        res += e[0]
+        res += " ("
+        res += str(100*round(e[1],2))
+        res += "%),"
+    res += ".\n"
+    
+    res += viewer + " appréciera moyennement"
+    for e in middle:
+        res += " "
+        res += e[0]
+        res += " ("
+        res += str(100*round(e[1],2))
+        res += "%),"
+    res += ".\n" 
+    
+    res += viewer + "risque de ne pas aimer"
+    for e in hate:
+        res += " "
+        res += e[0]
+        res += " ("
+        res += str(100*round(e[1],2))
+        res += "%),"
+    res += ".\n"
+    
+    return res
+    
+    
+
 # test
 
-'''df = cp.create_tab(30,25)
+df = cp.create_tab(30,25)
 print(df)
 A = df.as_matrix()
 t = cp.compute_lattice(A)
@@ -286,4 +342,6 @@ s = find_occurences(t, 3, 3)
 print(s)
 
 r = recommendation(A, t, 3, 3, 0.8)
-print(r)'''
+print(r)
+rec = recommendation_str(df, r, 0, "John Snow")
+print(rec)

@@ -232,7 +232,7 @@ print(r_new)'''
 
 
 # compute the set of objects that are in relation with the given set of attributes
-
+s
 def common_objects(M, attributs):
     
     '''

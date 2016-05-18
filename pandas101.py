@@ -26,8 +26,12 @@ from xlrd101 import import_xls
 # print('\n -------------- \n')
 
 # 2. Avec excel #
-df2 = pd.read_excel('data.xlsx','Data',header=0,index_col=0)
-print(df2)
+def data(n,m):
+    df1 = pd.read_excel('data.xlsx','Data',header=0,index_col=0)
+    return df1.iloc[0:n,0:m]
+
+df=data(8,5)
+print(df)
 
 # 3. Génération semi-aléatoire d'un tableau #
 def generate(n):

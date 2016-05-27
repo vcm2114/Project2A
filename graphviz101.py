@@ -150,24 +150,12 @@ def root2viz(df,l,lviz,parent):
 # print(str(a))
 # a.printf()
 
-print("---------------------------------")
 
-df1 = create_tab(5,4)
-print(df1)
-M = df1.as_matrix()
-t = compute_lattice(M)
-print("fin lattice \n")
-lviz=latticeviz([],[],[],[],['people','movies'],name="ConceptLattice")
-root2viz(df1,t,lviz,0)
-lviz.printf()
-
-
-
-#
-# print(g3.source)
-#
-# filename = g3.render(filename=file)
-# print filename
-# import subprocess           # to execute bash
-# bashCommand = "open "+file+".png"
-# output = subprocess.check_output(['bash','-c', bashCommand])
+# df1 = create_tab(5,4)
+# print(df1)
+# M = df1.as_matrix()
+# t = compute_lattice(M)
+# print("fin lattice \n")
+# lviz=latticeviz([],[],[],[],['people','movies'],name="ConceptLattice")
+# root2viz(df1,t,lviz,0)
+# lviz.printf()

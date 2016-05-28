@@ -8,11 +8,15 @@ from graphviz101 import *
 
 def main():
 
-    p = int(input("Number of people in database (<=90)? "))
-    f = int(input("Number of movies in database (<50)? "))
-
-    seuilfreq = int(input("What is the frequence threshold (non zero-integer <= people )? "))
-    seuilconf = float(input("What is the confidence threshold (percentage) ? "))
+    # p = int(input("Number of people in database (<=100)? "))
+    # f = int(input("Number of movies in database (<50)? "))
+    #
+    # seuilfreq = int(input("What is the frequence threshold (non zero-integer <= people )? "))
+    # seuilconf = float(input("What is the confidence threshold (percentage) ? "))
+    p=20
+    f=10
+    seuilfreq=3
+    seuilconf=0.6
     # Query database and find all lattices
     df = data(p,f)
     dfs=scaling(df)
@@ -35,6 +39,7 @@ def main():
         print(50*'-')
 
         n=dfs.index.get_loc(name)
+        print(n)
         size=len(dfs.columns)
         # Recommendation
         r = recommendation(M, t, n, seuilfreq, seuilconf) # personne, seuil de fréquence, seuil de confiance
@@ -47,7 +52,7 @@ def main():
         #lviz.printf()
         print(rec)
         play = input("Do you want to recommend someone else? ")
-        if play in ['Yes','yes','oui','Oui','Ok','ok','OK',1]:
+        if play in ['Yes','yes','oui','Oui','Ok','ok','OK',str(1)]:
             play=1
         else:
             play=0

@@ -73,7 +73,7 @@ def supp(M,attr1,attr2):
 
 # indicate if c's attributes are frequent
 
-def frequence(c,th):
+def frequence(M,attr1,attr2):
     """
     Input : - c: concept
             - th: threshold
@@ -81,6 +81,17 @@ def frequence(c,th):
     """
     return len(c.objects)>=th
 
+def valid(M,attr1,attr2,freq_threshold,conf_threshold):
+    """
+    Input : - M: context matrix
+            - attr1: attributes 1
+            - attr2: attributes 2
+            - freq_threshold: minimal threshold of frequence
+            - conf_threshold: minimal threshold of confiance
+    Output : boolean, 1 if valid
+    """
+    s=supp(M,attr1,attr2)
+    return s>=freq_threshold and (s/support(M,attr1))>=conf_threshold
 
 # compute the confidence of the association rule attr1 -> attr2
 
@@ -214,7 +225,8 @@ def recommand_node(M, L, k, freq_threshold, conf_threshold):
         lat = Q.get()
         c = confiance(M, L.node.attributes, lat.node.attributes)
 
-        if frequence(lat.node, freq_threshold) and (c >= conf_threshold):
+        #if frequence(lat.node, freq_threshold) and (c >= conf_threshold):
+        if valid(M,L.node.attributes, lat.node.attributes, freq_threshold, conf_threshold):
 
             exter = extersection(attk, lat.node.attributes)
             for e in exter:
@@ -334,7 +346,7 @@ def recommendation_str(dfs,df,dic,viewer):
         res=res[:-1]
         res += ".\n"
     if len(love)==0 and len(middle)==0 and len(hate)==0:
-        res = "No available recommendation for "+viewer + "\n"
+        res += "No available recommendation for "+viewer + ".\n"
 
     return res
 

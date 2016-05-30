@@ -13,7 +13,7 @@ Our project consists of building a recommander system feed by a users rating dat
    To compute formal concepts very quickly.
 ###### Breadth First Search algorithm
    -  Compute both formal concepts and lattices directly.
-   -  Used trie structure for faster implementation (from trie.py).
+   -  Used trie structure for faster computation (from trie.py).
 
 ### recommendation.py
 ###### recommand_node
@@ -29,15 +29,18 @@ Our project consists of building a recommander system feed by a users rating dat
    -  User input to defined the size of the database imported, the threshold used for frequency and confidance.
    -  Generating the concetps and lattices using concepts.py.
    -  User input to choose the person to recommend to.
-   -  Compute recommendation using recommendation.py
-   -  Display recommendation
+   -  Compute recommendation using recommendation.py.
+   -  Display recommendations.
 
 ## Other files
 ### graphviz101.py
-   -  Create latticeviz class to visualize lattices using the library graphviz.
+   Create latticeviz class to visualize lattices using the library graphviz.
+
 ### pandas101.py
-   Random generation of formal context and excel import of custom database
+   Random generation of formal context and excel import of custom database.
+
 ### scaling.py
-   To scale our original rating matrix to a binary table (formal context)
+   To scale our original rating matrix to a binary table (formal context).
+
 ### trie.py
    implementation of trie structure to compute faster lattices in BFS algorithm.

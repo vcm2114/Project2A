@@ -7,22 +7,22 @@ Our project consists of building a recommander system feed by a users rating dat
 
 ## Main files
 ### concepts.py
-#### FormalConcept and Lattice class
+###### FormalConcept and Lattice class
    Defined classes to handle formal concepts and lattices.
-#### In-close algorithm
+###### In-close algorithm
    To compute formal concepts very quickly.
-#### Breadth First Search algorithm
+###### Breadth First Search algorithm
    -  Compute both formal concepts and lattices directly.
    -  Used trie structure for faster implementation (from trie.py).
 
 ### recommendation.py
-#### recommand_node
+###### recommand_node
    Find the most significant attributes (movies) in term of frequence and confidence.
-#### recommendation
+###### recommendation
    Find all significant nodes with the aimed client to start the recommand_node procedure from.
-#### purify
+###### purify
    Select only the most precise recommendations.
-#### recommendation_str
+###### recommendation_str
    Print recommendations.
 
 ### main.py

@@ -26,8 +26,8 @@ from xlrd101 import import_xls
 # print('\n -------------- \n')
 
 # 2. Avec excel #
-def data(n,m):
-    df1 = pd.read_excel('data.xlsx','Data',header=0,index_col=0)
+def data(n,m,file='Data'):
+    df1 = pd.read_excel('data.xlsx',file,header=0,index_col=0)
     return df1.iloc[0:n,0:m]
 
 
@@ -35,15 +35,15 @@ def data(n,m):
 def generate(n):
     return np.random.randint(2, size=n)
 #
-# df3 = pd.DataFrame(
-#     {
-#     "SW I":generate(6),
-#     "Kill Bill":generate(6),
-#     "SAW VI":generate(6),
-#     "Jaws":generate(6),
-#     "Rambo":generate(6)
-#     },
-#     index=['Bob','Ashley','John','Paul','Gabby','Jordan'])
+df3 = pd.DataFrame(
+    {
+    "SW I":generate(6),
+    "Kill Bill":generate(6),
+    "SAW VI":generate(6),
+    "Jaws":generate(6),
+    "Rambo":generate(6)
+    },
+    index=['Bob','Ashley','John','Paul','Gabby','Jordan'])
 #
 # print(df3)
 # print('\n -------------- \n')

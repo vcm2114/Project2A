@@ -70,17 +70,6 @@ def supp(M,attr1,attr2):
     """
     return support(M,union(attr1,attr2))
 
-
-# indicate if c's attributes are frequent
-
-def frequence(M,attr1,attr2):
-    """
-    Input : - c: concept
-            - th: threshold
-    Output : freq(c) (bool)
-    """
-    return len(c.objects)>=th
-
 def valid(M,attr1,attr2,freq_threshold,conf_threshold):
     """
     Input : - M: context matrix
@@ -150,9 +139,7 @@ def find_occurences(L, k, threshold):
             - threshold: integer
     Output : set of the nodes where k appears and |objects| >= threshold
     """
-
     s = set()
-
     if len(L.node.objects) < threshold:
         return s
     else:
@@ -325,7 +312,7 @@ def recommendation_str(dfs,df,dic,viewer):
         res += ".\n"
 
     if len(middle)>0:
-        res += viewer + " could maybe like"
+        res += viewer + " wouldn't like nor dislike"
         for e in middle:
             res += " "
             res += e[0]
